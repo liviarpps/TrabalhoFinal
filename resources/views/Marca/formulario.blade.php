@@ -1,52 +1,75 @@
-@extends('TemplateAdmin.index')
+@extends('template_admin.index')
 
 @section('contents')
 
-@php
-    $titulo = "Inclusão de uma nova marca";
-    $endpoint = "/marca/novo";
-    $input_nome="";
-    $input_fantasia="";
-    $input_id="";
+    @php
 
-    if(isset($marca)){
-        $titulo = "Alteração de marca";
-        $endpoint = "/marca/update";
-        $input_nome= $marca['nome'];
-        $input_fantasia= $marca['nome_fantasia'];
-        $input_id = $marca["id"];
-    }
+        $titulo = "Nova marca";
+        $endpoint = "/admin/marca/novo";
+        $input_nome = "";
+        $input_fantasia = "";
+        $input_situacao = "";
+        $input_id = "";
 
-@endphp
+        if (isset($marca)) {
+            $titulo = "Alteração da marca";
+            $endpoint = "/admin/marca/alterar";
+            $input_nome = $marca['nome'];
+            $input_fantasia = $marca['nome_fantasia'];
+            $input_situacao = $marca['situacao'];
+            $input_id = $marca["id"];
+        }
 
+    @endphp
 
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-primary">{{{$titulo}}}</h1>
+    <!-- Inserir -->
 
-    <h1 class="h3 mb-4 text-gray-800">{{$titulo}}</h1>
     <div class="card">
-        <div class="card-header">
-            Cadastro de marca
-        </div>
-        <div class="card-body">
-            <form method="post" action="{{$endpoint}}">
-                @CSRF
-                <input type="hidden" name="id" value={{$input_id}}/>
+        <div class="card-header">Cadastro de marca</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <form action="{{$endpoint}}" method="post">
+                        @CSRF
 
-                <label class="form-label">Nome da marca</label>
-                <input class="form-control" name="nome" placeholder="LuminosityGaming" value="{{$input_nome}}">
+                        <input type="hidden" name="id" value="{{$input_id}}">
 
-                <label class="form-label">Nome Fantasia</label>
-                <input class="form-control" name="nome_fantasia" placeholder="LG" value="{{$input_fantasia}}">
+                        <div class="mb-2">
+                            <label class="form-label">Nome da marca</label>
+                            <input type="text" class="form-control" name="nome" value="{{$input_nome}}" placeholder="Redragon...">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Nome fantasia</label>
+                            <input type="text" class="form-control" name="nome_fantasia" value="{{$input_fantasia}}" placeholder="fantasia...">
+                        </div>
+                        <div class="mb-2">
+                            <select class="form-control" name="situacao" value="{{$input_situacao}}">
+                                @if (isset($marca))
 
-                <label class="form-label">Situacao</label>
-                <select class="form-control" name="situacao">
-                    <option value="1" selected>ATIVO</option>
-                    <option value="0">INATIVO</option>
-                </select>
+                                    @if ($marca['situacao'] == 0)
+                                        <option value="{{$marca['situacao']}}" selected>Inativo</option>
+                                        <option value="1">Ativo</option>
+                                    @else
+                                        <option value="{{$marca['situacao']}}" selected>Ativo</option>
+                                        <option value="0">Inativo</option>
+                                    @endif
 
-                <br/>
-                <input type="submit" class="btn btn-success" value="SALVAR"/>
+                                @else
 
-            </form>
+                                    <option value="1" selected>Ativo</option>
+                                    <option value="0">Inativo</option>
+
+                                @endif
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <input type="submit" class="btn btn-outline-dark" value="Salvar">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
 @endsection

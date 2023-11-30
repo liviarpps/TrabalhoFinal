@@ -1,45 +1,69 @@
-@extends('TemplateAdmin.index')
+@extends('template_admin.index')
 
 @section('contents')
 
-@php
-    $titulo = "Inclusão de uma nova cor";
-    $endpoint = "/cor/novo";
-    $input_cor="";
-    $input_id="";
+    @php
 
-    if(isset($cor)){
-        $titulo = "Alteração da cor";
-        $endpoint = "/cor/update";
-        $input_cor= $cor['cor'];
-        $input_id = $cor["id"];
-    }
+        $titulo = "Nova cor";
+        $endpoint = "/admin/cor/novo";
+        $input_cor = "";
+        $input_situacao = "";
+        $input_id = "";
 
-@endphp
+        if (isset($cor)) {
+            $titulo = "Alteração da cor";
+            $endpoint = "/admin/cor/alterar";
+            $input_cor = $cor['cor'];
+            $input_situacao = $cor['situacao'];
+            $input_id = $cor["id"];
+        }
 
-    <h1 class="h3 mb-4 text-gray-800">{{$titulo}}</h1>
+    @endphp
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-primary">{{{$titulo}}}</h1>
+    <!-- Inserir -->
+
     <div class="card">
-        <div class="card-header">
-            Criar nova marca
-        </div>
-        <div class="card-body">
-            <form method="post" action="{{$endpoint}}">
-                @CSRF
-                <input type="hidden" name="id" value={{$input_id}}/>
+        <div class="card-header">Cadastro de cor</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <form action="{{$endpoint}}" method="post">
+                        @CSRF
 
-                <label class="form-label">Nome da cor</label>
-                <input class="form-control" name="cor" placeholder="Insira uma cor" value={{$input_cor}}>
+                        <input type="hidden" name="id" value="{{$input_id}}">
 
-                <label class="form-label">Situacao</label>
-                <select class="form-control" name="situacao">
-                    <option value="1" selected>ATIVO</option>
-                    <option value="0">INATIVO</option>
-                </select>
+                        <div class="mb-2">
+                            <label class="form-label">Nome da cor</label>
+                            <input type="text" class="form-control" name="cor" value="{{$input_cor}}" placeholder="Vermeio...">
+                        </div>
+                        <div class="mb-2">
+                            <select class="form-control" name="situacao" value="{{$input_situacao}}">
+                                @if (isset($cor))
 
-                <br/>
-                <input type="submit" class="btn btn-success" value="SALVAR"/>
+                                    @if ($cor['situacao'] == 0)
+                                        <option value="{{$cor['situacao']}}" selected>Inativo</option>
+                                        <option value="1">Ativo</option>
+                                    @else
+                                        <option value="{{$cor['situacao']}}" selected>Ativo</option>
+                                        <option value="0">Inativo</option>
+                                    @endif
 
-            </form>
+                                @else
+
+                                    <option value="1" selected>Ativo</option>
+                                    <option value="0">Inativo</option>
+
+                                @endif
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <input type="submit" class="btn btn-outline-dark" value="Salvar">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
 @endsection

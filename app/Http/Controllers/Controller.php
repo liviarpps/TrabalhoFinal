@@ -1,5 +1,7 @@
 <?php
 
+//Controller é o centro do desenvolvimento
+
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

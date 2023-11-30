@@ -5,27 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Marca;
 
+session_start();
+
 class MarcaController extends Controller
 {
-    public function index()
-    {
-        $dados = Marca::all()->toArray();
+
+    public function index(){
+
+        $dados = Marca::all()->toArray(); //semelhante ao SELECT * FROM marca
 
         return View("Marca.index",
-                [
-                    'marcas' => $dados
-                ]
-            );
+            [
+                'marcas' => $dados
+            ]
+        );
     }
 
-    public function inserir()
-    {
+    public function inserir(){
         return View("Marca.formulario");
     }
 
-    public function salvar_novo(Request $request)
-    {
-        //@csfr
+    public function salvar_novo(Request $request){
 
         $marca = new Marca;
         $marca->nome = $request->input("nome");
@@ -33,34 +33,35 @@ class MarcaController extends Controller
         $marca->situacao = $request->input("situacao");
         $marca->save();
 
-        return redirect("/marca");
+        return redirect("/admin/marca");
 
-        exit;
     }
 
-    public function excluir($id)
-    {
+    public function excluir($id){
+
         $marca = Marca::find($id);
         $marca->delete();
-        return redirect('/marca');
+
+        return redirect("/admin/marca");
     }
 
-    public function alterar($id)
-    {
+    public function alterar($id){
+
         $marca = Marca::find($id)->toArray();
-        return View("Marca.formulario", ['marca' => $marca]);
 
+        return View("Marca.formulario",['marca' => $marca]);
     }
 
-    public function salvar_update(Request $request)
-    {
-        $id = $request->input("id");
-        $marca = Marca::find($id);
+    public function salvar_update(Request $request){
+
+        $marca = Marca::find($request->input("id"));
         $marca->nome = $request->input("nome");
         $marca->nome_fantasia = $request->input("nome_fantasia");
         $marca->situacao = $request->input("situacao");
-        $marca->save();
-        return redirect('/marca');
 
+        $marca->save();
+
+        return redirect("/admin/marca");
     }
+
 }

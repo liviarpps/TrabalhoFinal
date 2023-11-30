@@ -1,17 +1,18 @@
-@extends('TemplateAdmin.index')
+@extends('template_admin.index')
 
 @section('contents')
-    <h1 class="h3 mb-4 text-gray-800">Marca de produtos</h1>
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-primary">Marcas de produtos</h1>
+    <!-- Coonsulta -->
 
     <div class="card">
-        <div class="card-header">
-            Lista de marcas
-        </div>
+        <div class="card-header">Marcas cadastradas</div>
         <div class="card-body">
 
-            <a href="/marca/novo" class="btn btn-success">
-                Novo
-            </a>
+            <div class="mb-2">
+                <a href="/admin/marca/novo" class="btn btn-dark">Novo</a>
+            </div>
 
             <table class="table table-bordered dataTable">
                 <thead>
@@ -27,11 +28,11 @@
                             <td>{{ $linha['nome'] }}</td>
                             <td>{{ $linha['nome_fantasia'] }}</td>
                             <td>
-                                <a href="/marca/update/{{ $linha['id'] }}" class="btn btn-success">
-                                    <li class=" fa fa-edit"></li>
+                                <a href="/admin/marca/alterar/{{ $linha['id'] }}" class="btn btn-dark">
+                                    <li class="fa fa-edit"></li>
                                 </a>
-                                <a href="/marca/excluir/{{ $linha['id'] }}" class="btn btn-danger">
-                                    <li class=" fa fa-trash"></li>
+                                <a href="/admin/marca/excluir/{{ $linha['id'] }}" class="btn btn-danger">
+                                    <li class="fa fa-trash"></li>
                                 </a>
                             </td>
                         </tr>
@@ -40,4 +41,6 @@
             </table>
         </div>
     </div>
+
 @endsection
+

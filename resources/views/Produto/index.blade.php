@@ -1,53 +1,61 @@
-@extends('TemplateAdmin.index')
+@extends('template_admin.index')
 
 @section('contents')
-    <h1 class="h3 mb-4 text-gray-800">Cadastro de produto</h1>
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-primary">Produtos</h1>
+    <!-- Coonsulta -->
 
     <div class="card">
-        <div class="card-header">
-            Lista de produtos
-        </div>
+        <div class="card-header">Produtos cadastrados</div>
         <div class="card-body">
 
-            <a href="/produto/novo" class="btn btn-success">
-                Novo
-            </a>
+            <div class="mb-2">
+                <a href="/admin/produto/novo" class="btn btn-dark">Novo</a>
+            </div>
 
             <table class="table table-bordered dataTable">
                 <thead>
                     <td>ID</td>
                     <td>Nome</td>
-                    <td>Marca</td>
                     <td>Categoria</td>
-                    <td>Descricao</td>
-                    <td>Opções</td>
+                    <td>Marca</td>
+                    <td>Cor</td>
+                    <td>Preço</td>
+                    <td>Quantidade</td>
+                    <td>Descrição</td>
                 </thead>
                 <tbody>
-                    @foreach ($produto as $dados)
+                    @foreach ($produtos as $linha)
                         <tr>
-                            <td>{{ $dados['id'] }}</td>
-                            <td>{{ $dados['nome'] }}</td>
-                            <td>{{ $dados['marca']}}</td>
-                            <td>{{ $dados['cat'] }}</td>
+                            <td>{{ $linha['id'] }}</td>
+                            <td>{{ $linha['nome'] }}</td>
+                            <td>{{ $linha['id_categoria'] }}</td>
+                            <td>{{ $linha['id_marca'] }}</td>
+                            <td>{{ $linha['id_cor'] }}</td>
+                            <td>{{ $linha['preco'] }}</td>
+                            <td>{{ $linha['quantidade'] }}</td>
                             <td>
-                                @php
-
-                                    echo $dados['descricao'];
-                                @endphp
+                                <?php echo $linha['descricao'];?>
                             </td>
                             <td>
-                                <a href="/produto/update/{{ $dados['id'] }}" class="btn btn-success">
-                                    <li class=" fa fa-edit"></li>
-                                </a>
-                                <a href="/produto/excluir/{{ $dados['id'] }}" class="btn btn-danger">
-                                    <li class=" fa fa-trash"></li>
-                                </a>
+                                <div class="mb-2">
+                                    <a href="/admin/produto/alterar/{{ $linha['id'] }}" class="btn btn-dark">
+                                        <li class="fa fa-edit"></li>
+                                    </a>
+                                </div>
+                                <div class="mb-2">
+                                    <a href="/admin/produto/excluir/{{ $linha['id'] }}" class="btn btn-danger">
+                                        <li class="fa fa-trash"></li>
+                                    </a>
+                                </div>
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
 @endsection
+
